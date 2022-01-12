@@ -61,7 +61,7 @@ namespace BusinessApplicationBackend.Controllers
 
                 return Ok(new { Success = false });
             }
-            return BadRequest();
+            return BadRequest(new { Success = false, Message = "Please check the values provided" });
         }
 
 
@@ -70,8 +70,8 @@ namespace BusinessApplicationBackend.Controllers
         {
             if (req != null)
             {
-                return !string.IsNullOrEmpty(req.Email) && !string.IsNullOrEmpty(req.BusinessName)
-                    && !string.IsNullOrEmpty(req.ZipCode) && !string.IsNullOrEmpty(req.Industry)
+                return !string.IsNullOrWhiteSpace(req.Email) && !string.IsNullOrWhiteSpace(req.BusinessName)
+                    && !string.IsNullOrWhiteSpace(req.ZipCode) && !string.IsNullOrWhiteSpace(req.Industry)
                     && (req.AnnualSales >= 50000 && req.AnnualSales <= 200000) && (req.AnnualPayroll >= 50000 && req.AnnualPayroll <= 200000) && (req.NumberOfEmployees > -1 && req.NumberOfEmployees <= 100000);
             }
             return false;

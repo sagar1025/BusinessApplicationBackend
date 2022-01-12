@@ -2,7 +2,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var AllowFrontEnd = "_AllowFrontEnd";
 
-//builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddCors(options =>
