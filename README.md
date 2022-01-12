@@ -1,6 +1,6 @@
 # BusinessApplicationBackend
 
-To start the application, run the following command from within the `BusinessApplicationBackend` folder
+To start the application, run the following command from within the `\BusinessApplicationBackend\BusinessApplicationBackend` folder
 
 `dotnet run --urls=http://localhost:56861/`
 
