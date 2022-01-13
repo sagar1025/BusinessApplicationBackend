@@ -11,7 +11,7 @@ namespace BusinessApplicationBackend.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        public const string SessionKeyName = "_companies";
+        public const string CacheKeyName = "_companies";
         private readonly IMemoryCache memoryCache;
 
         public ApplicationController(IMemoryCache memoryCache)
@@ -23,12 +23,9 @@ namespace BusinessApplicationBackend.Controllers
         public IActionResult Index()
         {
             IList<AppClass> Apps = new List<AppClass>();
-            bool hasData = memoryCache.TryGetValue(SessionKeyName, out Apps);
-            if(hasData)
-            {
-                return Ok(JsonSerializer.Serialize(Apps));
-            }
-            return Ok(null);
+            bool hasData = memoryCache.TryGetValue(CacheKeyName, out Apps);
+
+            return hasData ? Ok(JsonSerializer.Serialize(Apps)) : Ok(null);
         }
 
         [HttpPost]
@@ -37,7 +34,7 @@ namespace BusinessApplicationBackend.Controllers
             if (ValidateRequest(req))
             {
                 IList<AppClass> data = new List<AppClass>();
-                bool sessionData = memoryCache.TryGetValue(SessionKeyName, out data);
+                bool sessionData = memoryCache.TryGetValue(CacheKeyName, out data);
                 if (sessionData)
                 {
                     try
@@ -45,7 +42,7 @@ namespace BusinessApplicationBackend.Controllers
                         if (data != null && data.Any())
                         {
                             data.Add(req);
-                            memoryCache.Set(SessionKeyName, data);
+                            memoryCache.Set(CacheKeyName, data);
                             return Ok(new { Success = true });
                         }
                     }
@@ -55,7 +52,7 @@ namespace BusinessApplicationBackend.Controllers
                 {
                     var list = new List<AppClass>();
                     list.Add(req);
-                    memoryCache.Set(SessionKeyName, list);
+                    memoryCache.Set(CacheKeyName, list);
                     return Ok(new { Success = true });
                 }
 
@@ -77,8 +74,5 @@ namespace BusinessApplicationBackend.Controllers
             return false;
         }
     }
-
-
-
 
 }
